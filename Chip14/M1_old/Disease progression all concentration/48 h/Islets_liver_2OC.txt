@@ -1,0 +1,85 @@
+********** MODEL NAME
+Islets_liver_2OC
+
+********** MODEL NOTES
+
+% The parameter values are set based on in vivo human experiments.
+% Parameter values from the publication (Topp et al., 2000), scaled to be 
+% expressed in a time scale of hours and concentrations in mM
+
+********** MODEL STATES
+
+%  Amount of glucose molecules in the liver compartment
+d/dt(NG_m_hep) = v1-v2+v3    
+
+% Amount of glucose molecules in the islets compartment
+d/dt(NG_m_islets) = v4-v5   
+
+% Amount of insulin molecules in the islets compartment
+d/dt(NI_m_islets) = v6-v7+v8
+
+% Amount of insulin molecules in the liver compartment
+d/dt(NI_m_hep) = v9-v10-v11
+
+
+%Initial conditions                          
+                                                                                                                                 
+NG_m_hep(0) = 11*V_m_hep
+NG_m_islets(0) = 11*V_m_islets
+NI_m_islets(0) = 0
+NI_m_hep(0) = 0
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+********** MODEL PARAMETERS   
+
+V_m_hep = 0.0003                    % (L)
+V_hep = 0.00000340000000000         % (L)
+V_m_islets = 0.0003                 % (L)
+V_islets = 0.0000000088             % (L)
+Q = 0.0002964                       % (L/h)
+EGP_hep = 176.47                    % (mM/h)
+U_ii_hep = 5.294                    % (1/h)
+
+S_i=0.00034                         % (1/(uU/ml*h))
+Sigma = 1472727.27                  % (mU/L/h)
+Alpha = 61.72                       % (mM^2)
+CL_i_hep = 0                        % (1/h)
+
+V_sample_hep = 0.0000150000000      % (L)
+V_sample_islets = 0.0000150000000   % (L)
+
+
+********** MODEL VARIABLES 
+
+% Measured glucose and insulin concentrations
+
+G_meas=(NG_m_hep/V_m_hep*V_sample_hep+NG_m_islets/V_m_islets*V_sample_islets)/(V_sample_hep+V_sample_islets) %1) Measured glucose concentration
+I_meas=(NI_m_hep/V_m_hep*V_sample_hep+NI_m_islets/V_m_islets*V_sample_islets)/(V_sample_hep+V_sample_islets) %2) Measured insulin concentration
+
+% Glucose and insulin concentrations in each organ compartment
+
+G_M_HEP = NG_m_hep/V_m_hep              % 3) Glucose concentration in the liver compartment
+G_M_ISLETS = NG_m_islets/V_m_islets		% 4) Glucose concentration in the islets compartment
+I_M_HEP = NI_m_hep/V_m_hep              % 5) Insulin concentration in the liver compartment
+I_M_ISLETS = NI_m_islets/V_m_islets		% 6) Insulin concentration in the islets compartment
+
+% Particle fluxes between compartments
+
+v1 = Q*NG_m_islets/V_m_islets
+v2 = Q*NG_m_hep/V_m_hep
+v3 = V_hep*(EGP_hep-U_ii_hep*NG_m_hep/V_m_hep-S_i*NG_m_hep/V_m_hep*NI_m_hep/V_m_hep  )
+v4 = Q*NG_m_hep/V_m_hep
+v5 = Q*NG_m_islets/V_m_islets
+v6 = Q*NI_m_hep/V_m_hep
+v7 = Q*NI_m_islets/V_m_islets
+v8 = V_islets*Sigma*(NG_m_islets/V_m_islets)^2/(Alpha+(NG_m_islets/V_m_islets)^2)
+v9 = Q*NI_m_islets/V_m_islets
+v10 = Q*NI_m_hep/V_m_hep
+v11 = V_hep*CL_i_hep*NI_m_hep/V_m_hep
+
+********** MODEL REACTIONS
+
+********** MODEL EVENTS
+
+********** MODEL MATLAB FUNCTIONS
+
+    
