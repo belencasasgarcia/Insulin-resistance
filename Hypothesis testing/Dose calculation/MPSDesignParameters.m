@@ -1,5 +1,15 @@
 % MPS design parameters
 
+% Design parameters for the pancreas-liver 2-OC. More details on these 
+% parameters can be found at:
+
+% Casas B, Vilén L, Bauer S, Kanebratt KP, Wennberg Huldt C, et al. (2022) 
+% Integrated experimental-computational analysis of a HepaRG liver-islet 
+% microphysiological system for human-centric diabetes research. 
+% PLOS Computational Biology 18(10): e1010587
+
+% Scaling factor MPS - human
+
 k_scaling_tissue=100000;
 
 % Volumes
