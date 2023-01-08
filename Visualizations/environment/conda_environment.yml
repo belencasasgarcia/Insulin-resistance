@@ -1,0 +1,45 @@
+# Conda Environment Setup Instructions ----
+#  - Using an environment.yml file with conda
+#  - Key Terminal Commands:
+# 
+#    conda env create -f environment/conda_environment.yml
+#    conda env update --file environment/conda_environment.yml --prune
+#    conda env export --name manuscript_IR > envname.yml
+#    conda env remove --name manuscript_IR
+#    conda env list
+#
+
+name: manuscript_IR
+channels:
+  - anaconda
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9.13
+  - pip
+  - pip:
+      # Core Data
+      - numpy==1.20.2
+      - pandas==1.2.2
+
+      # Visualization
+      - matplotlib==3.3.4
+      - plotly==4.14.3
+      # - altair==4.1.0
+
+      # EDA
+      - pandas-profiling
+
+      # Excel
+      - xlsxwriter==1.3.7
+
+      # Jupyter
+      - jupyterlab==3.0.13
+      - jupyterlab-server==2.4.0
+      - papermill==2.3.3
+
+      # Terminal Formatting
+      - rich
+
+      - ipykernel
+  
