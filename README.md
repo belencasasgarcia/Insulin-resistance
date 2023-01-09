@@ -42,6 +42,29 @@ To reproduce the results in the manuscript, run the `plotExperimentSimulation` f
 3. Run the `plotExperimentSimulation` script to visualize the model simulations (with uncertainties) against the experimental data used for calibration 
 4. Run the `plotExperimentSimulation` script in the `Validation` folder to visualize the model predictions (with uncertainties) against the experimental data used for calibration.
 
+## Visualizations
 
+### System requirements
+We have tested in Python 3.9.13 and conda 22.9.0 on OSX Big Sur (on MacBook Air with M1 Chip and 16 GB RAM).
 
+### Installation guide
+The installation guide below assume that:
 
+1. The repository has been cloned
+2. [Anaconda][conda] is installed for package and environment management
+
+Reproduce the environment used for visualizations with the following command:
+
+````
+conda env create -f environment/conda_environment.yml
+````
+This creates a new environment named `manuscript_IR`. This environment can be activated by executing the following command in the terminal:
+
+````
+conda activate manuscript_IR
+````
+
+### Demo
+To reproduce the results in the manuscript, run the `plotsHypothesisTesting.ipynb` and `plotsHypothesisTesting.ipynb` notebooks to generate the manuscript plots related to hypothesis testing (Figure 2) and hydrocortisone modelling (Figure 4), respectively.
+
+[conda]: https://docs.conda.io/en/latest/
