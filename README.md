@@ -1,7 +1,7 @@
 # Insulin-resistance
 
-- [Repo Contents](#repo-contents)
-- [Modelling and simulation](#modelling)
+- [Repository Contents](#repository-contents)
+- [Modelling and simulation](#modelling-and-simulation)
 - [Visualizations](#visualizations)
 
 ## Repository Contents:
@@ -10,82 +10,38 @@ The files can be used to reproduce the results in the paper "Pancreas-liver in v
 
 The scripts used for modelling and simulation are implemented in Matlab R2022b and use the IQM toolbox, which can be installed from: https://iqmtools.intiquan.com/
 
-The scripts for visualization are implemented in Python 3.9.13
+The scripts for visualization are implemented in Python 3.9.13. The datasets resulting from the simulations performed in Matlab are saved and used as inputs in the visualizations scripts 
 
-- [**Code**](https://github.com/neurodata-papers/MGC/tree/master/Code): folder containing MATLAB & R code to reproduce all results in the manuscript
-- [**Draft**](https://github.com/neurodata-papers/MGC/tree/master/Draft): Discovering Relationships and their Structures Across Disparate Data Modalities,
-Cencheng Shen, Carey E. Priebe, Mauro Maggioni, Qing Wang, Joshua T. Vogelstein,
-submitted.
-- [**Figures**](https://github.com/neurodata-papers/MGC/tree/master/Figures):  all figures from the plotting code used in the draft
-- [**Data**](https://github.com/neurodata-papers/MGC/tree/master/Data):  contains the processed raw data to reproduce all results in the draft, and existing results to readily generate the figures.
+- [**Hypothesis testing**](https://github.com/belencasasgarcia/Insulin-resistance/tree/main/Hypothesis%20testing): Folder containing Matlab codes to reproduce results in the manuscript related to hypothesis testing
+- [**Hydrocortisone modelling**](https://github.com/belencasasgarcia/Insulin-resistance/tree/main/Hydrocrotisone%20modelling): Folder containing Matlab codes to reproduce results in the manuscript related to modelling of HCT effects
+- [**Visualizations**](https://github.com/belencasasgarcia/Insulin-resistance/tree/main/Visualizations): Folder containing Python codes to reproduce the visualizations (plots) in the manuscript
 
+The folders containing the Matlab codes include subfolders with the following structure:
 
+- [**Codes**]: Matlab codes to reproduce the modelling results in the manuscript
+- [**Data**]: Experimental data for modelling calibration and validation. It includes the raw data and the processed (corrected) data, as indicated by the subscript `_corr_`
+- [**Models**]: Files for the mathematical models
 
-
-
-## MATLAB
-
-### Dependencies
-
-We have tested in MATLAB R2017a on Windows 10 (on PC with i7 6850k and 64 GB memory) and  OSX Sierra (on MacBook Pro with 3.3 GHz Intel Core i7 and 16 GB RAM).
-
-### Installation
-Add all folders and subfolders of this repo to the path, you can do so using the command `addpath(genpath('<path-to-repo'))`, replacing `<path-to-repo>` with the path to your local copy of the repo.
-
-### Demo
-Type  `run_demo`
-for a simulation example that outputs many things including visualization of the dependency, a p-value (pMGC) of < 0.05, the test statistic, and highlighted optimal scales in the multiscale significance map; it takes < 10 seconds to run.
-
-### Reproduction Instruction
-
-To reproduce the results in the manuscript, once installed, type any of the following:
-
-- `plot_all` reproduce all figures in the draft from pre-generated results
-- `run_1d_sims` runs the 1-dimensional simulations (~20 min)
-- `run_hd_sims` runs high-dimensional simulations (~60 min)
-- `run_realData` runs real data experiments (~20 min)
-
-
-Note that the default number of replicates in each experiment is set at 100, which is much smaller than the number used in the draft. This can be increased by the function argument at the cost of linearly increasing the running time.
-
-### Test on Real Data
-1. To run on any given data X and Y, compute the n times n Euclidean distance matrices C for X and D for Y respectively, then type `MGCPermutationTest(C,D)`. If the input are already two distance matrices, use them directly.
-2. The output will be the p-value, test statistic, and optimal scales. See the respective Matlab and R code for the output format.
-
-
-## R
+## Modelling and simulation
 
 ### System requirements
+We have tested in MATLAB R2022b on OSX Big Sur (on MacBook Air with M1 Chip and 16 GB RAM).
 
+### Installation guide
+Add all folders and subfolders of this repo to the path, by using the command `addpath(genpath('<repository-path'))`, replacing `<repository-path>` with the path to your local copy of the repo. The latest version of the IQM tools is required, which can be installed from: https://iqmtools.intiquan.com/
 
-We have tested in R v3.4.1 on Windows 10 (on PC with i7 6850k and 64 GB memory) and  OSX Sierra (on MacBook Pro with 3.3 GHz Intel Core i7 and 16 GB RAM).
-
-On OSX, gfortan must also be installed, to do so, follow instructions from https://gcc.gnu.org/wiki/GFortranBinariesMacOS.
-
-
-### installation
-
-```
-install.packages('ecodist')
-install.packages('HHG')
-install.packages('energy')
-install.packages('SDMTools')
-setwd("<path-to-repo>/Code/R")
-source('MGCPermutationTest.R')
-source('run_realData.R')
-```
-
-Note that `<path-to-repo>` must be replaced with the path to your local copy of the repo.
-
-
+The typical installation time on a "normal" desktop time is ~10 min
 
 ### Demo
+To reproduce the results in the manuscript, run the `plotExperimentSimulation` files within the subfolders to reproduce the corresponding results (calibration or validation) for both hypothesis testing (H1 and H2) and hydrocortisone modelling. The expected output are the Matlab figures (.fig) corresponding to Fig.2 d,e and Fig.4 a,b and Supplementary Fig.2 in the manuscript. The expected run time for generating these results on a "normal" desktop computer is ~20 min
 
-Once installed, type `test=run_realData()` which takes < 1 minute to run.  The output is the variable test that includes:
-- `localCorr` matrix
-- `optimalInd` vector
-- `pLocalCorr` matrix
-- `pMGC` p-value
-- `statMGC` test statistic.
+### Instructions for use
 
-Note that despite of the same implementation, the R version is slightly slower than Matlab for running on the same data, due to the fact that Matlab is slightly more efficient in handling matrix computation.
+1. Model calibration: Add the experimental data (glucose and insulin responses) to the `Data` subfolders within the `Calibration` subfolder
+2. Run the `optimizationScript` script for the corresponding models (H1 and/or H2), which is included in the `Codes` subfolder. This script optimizes the parameters in the model using a simulated annealing algorithm (`simannealingSBAOClusteringL`) and the cost function defined in the `costFunction` script. The output will be the set of parameters that provide an acceptable agreement with the experimental data. The calculations for the chi-2 test are included in the `optimizationScript`
+3. Run the `plotExperimentSimulation` script to visualize the model simulations (with uncertainties) against the experimental data used for calibration 
+4. Run the `plotExperimentSimulation` script in the `Validation` folder to visualize the model predictions (with uncertainties) against the experimental data used for calibration.
+
+
+
+
