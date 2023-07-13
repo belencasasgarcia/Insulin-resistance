@@ -6,7 +6,7 @@
 
 ## Repository Contents:
 
-The files can be used to reproduce the results in the paper "Pancreas-liver in vitro and in silico hybrid model for human diabetic dysregulation". These files include the code to simulate the mathematical models and perform the visualizations included in the article, and the experimental data for calibration and validation of the models.
+The files can be used to reproduce the results in the paper "Diseased human pancreas and liver microphysiological system for preclinical diabetes research". These files include the code to simulate the mathematical models and perform the visualizations included in the article, and the experimental data for calibration and validation of the models.
 
 The scripts used for modelling and simulation are implemented in Matlab R2022b and use the IQM toolbox, which can be installed from: https://iqmtools.intiquan.com/
 
